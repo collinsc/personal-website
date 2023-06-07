@@ -26,7 +26,8 @@ jobs:
           npm install
           npm run build --if-present
           npm run test --if-present
-
+      - name: Tar files
+        run: tar -cvf artifact.tar .
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -45,6 +46,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: node-app
+      - name: untar files
+        run: |
+          tar -xvf artifact.tar .
+          rm artifact.tar
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
