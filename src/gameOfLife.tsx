@@ -6,28 +6,36 @@ const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC"
 const DEAD_COLOR = "#FFFFFF"
 const ALIVE_COLOR = "#00A7E1"
+const width = 64;
+const height = 64;
 
-function drawGrid(ctx: CanvasRenderingContext2D, game: Universe) {
+function drawGrid(ctx: CanvasRenderingContext2D) {
       ctx.beginPath()
       ctx.strokeStyle = GRID_COLOR
       // Vertical lines.
-      for (let i = 0; i <= game.width(); i++) {
+      for (let i = 0; i <= width; i++) {
         ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0)
-        ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * game.height() + 1)
+        ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1)
       }
       // Horizontal lines.
-      for (let j = 0; j <= game.height(); j++) {
+      for (let j = 0; j <= width; j++) {
         ctx.moveTo(0,                           j * (CELL_SIZE + 1) + 1);
-        ctx.lineTo((CELL_SIZE + 1) * game.width() + 1, j * (CELL_SIZE + 1) + 1);
+        ctx.lineTo((CELL_SIZE + 1) * height + 1, j * (CELL_SIZE + 1) + 1);
       }
       ctx.stroke()
 }
 
-function drawCells(ctx: CanvasRenderingContext2D, game: Universe){
+function drawCells(ctx: CanvasRenderingContext2D, cells: Uint8Array){
     ctx.beginPath();
-    for (let row = 0; row < game.height(); row++) {
-      for (let col = 0; col < game.width(); col++) {
-        ctx.fillStyle = game.is_alive(row,col) === false
+    let n
+    let mask
+    let isSet
+    for (let row = 0; row < width; row++) {
+      for (let col = 0; col < height; col++) {
+        n = row * width + col;
+        mask = 1 << (n % 8);
+        isSet = (cells[Math.floor(n / 8)] & mask) === mask;
+        ctx.fillStyle = isSet === false
           ? DEAD_COLOR
           : ALIVE_COLOR
         ctx.fillRect(
@@ -45,20 +53,23 @@ export function GameOfLife(){
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
   useEffect( () => {
     let frameId: number
-    init().then(() => {
+    init().then((wasm) => {
       if (canvasRef.current) {
-        let game = Universe.new(CreationStrategy.Deterministic)
-        canvasRef.current.height = (CELL_SIZE + 1) * game.height() + 1
-        canvasRef.current.width = (CELL_SIZE + 1) * game.width() + 1
+        canvasRef.current.width = (CELL_SIZE + 1) * height + 1
+        canvasRef.current.height = (CELL_SIZE + 1) * width + 1
+        let game = Universe.new(width, height)
+        game.init(CreationStrategy.Deterministic)
+        const cellsPtr = game.cell_ptr()
+        const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, width * height / 8);
         const ctx = canvasRef.current.getContext('2d')!;
         const frame = () => {
           game.tick()
-          drawGrid(ctx, game)
-          drawCells(ctx, game)
+          drawGrid(ctx)
+          drawCells(ctx, cells)
           frameId = requestAnimationFrame(frame)
         }
-        drawGrid(ctx, game)
-        drawCells(ctx, game)
+        drawGrid(ctx)
+        drawCells(ctx, cells)
         frameId = requestAnimationFrame(frame)        
       }
     });
