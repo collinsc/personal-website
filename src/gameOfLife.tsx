@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 
 import init, { Universe,  CreationStrategy } from "collinsc-wasm-game-of-life";
 
@@ -8,33 +8,34 @@ const DEAD_COLOR = "#FFFFFF"
 const ALIVE_COLOR = "#00A7E1"
 const width = 64;
 const height = 64;
+const gridSz = width * height / 8;
 
-function drawGrid(ctx: CanvasRenderingContext2D) {
-      ctx.beginPath()
-      ctx.strokeStyle = GRID_COLOR
-      // Vertical lines.
-      for (let i = 0; i <= width; i++) {
-        ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0)
-        ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1)
-      }
-      // Horizontal lines.
-      for (let j = 0; j <= width; j++) {
-        ctx.moveTo(0,                           j * (CELL_SIZE + 1) + 1);
-        ctx.lineTo((CELL_SIZE + 1) * height + 1, j * (CELL_SIZE + 1) + 1);
-      }
-      ctx.stroke()
+function drawGrid(ctx: CanvasRenderingContext2D | null) {
+  if (ctx != null) {
+    ctx.beginPath()
+    ctx.strokeStyle = GRID_COLOR
+    // Vertical lines.
+    for (let i = 0; i <= width; i++) {
+      ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0)
+      ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1)
+    }
+    // Horizontal lines.
+    for (let j = 0; j <= width; j++) {
+      ctx.moveTo(0,                           j * (CELL_SIZE + 1) + 1);
+      ctx.lineTo((CELL_SIZE + 1) * height + 1, j * (CELL_SIZE + 1) + 1);
+    }
+    ctx.stroke()
+  }
 }
 
-function drawCells(ctx: CanvasRenderingContext2D, cells: Uint8Array){
+function drawCells(ctx: CanvasRenderingContext2D | null, cells: Uint8Array | null, game: Universe | null){
+  if (ctx != null && cells != null) {
     ctx.beginPath();
-    let n
-    let mask
-    let isSet
+    let n: number, isSet: boolean
     for (let row = 0; row < width; row++) {
       for (let col = 0; col < height; col++) {
         n = row * width + col;
-        mask = 1 << (n % 8);
-        isSet = (cells[Math.floor(n / 8)] & mask) === mask;
+        isSet = (cells[Math.floor(n / 8)] & (1 << (n % 8))) !== 0
         ctx.fillStyle = isSet === false
           ? DEAD_COLOR
           : ALIVE_COLOR
@@ -47,33 +48,48 @@ function drawCells(ctx: CanvasRenderingContext2D, cells: Uint8Array){
       }
     }
     ctx.stroke()
+  }
 }
 
 export function GameOfLife(){
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  useEffect( () => {
-    let frameId: number
-    init().then((wasm) => {
-      if (canvasRef.current) {
-        canvasRef.current.width = (CELL_SIZE + 1) * height + 1
-        canvasRef.current.height = (CELL_SIZE + 1) * width + 1
-        let game = Universe.new(width, height)
-        game.init(CreationStrategy.Deterministic)
-        const cellsPtr = game.cell_ptr()
-        const cells = new Uint8Array(wasm.memory.buffer, cellsPtr, width * height / 8);
-        const ctx = canvasRef.current.getContext('2d')!;
-        const frame = () => {
-          game.tick()
-          drawGrid(ctx)
-          drawCells(ctx, cells)
-          frameId = requestAnimationFrame(frame)
-        }
-        drawGrid(ctx)
-        drawCells(ctx, cells)
-        frameId = requestAnimationFrame(frame)        
+  let game = useRef<Universe | null>(null)
+  let cells = useRef<Uint8Array | null>(null)
+  let wasm = useRef<any | null>(null)
+  let isPaused = useRef(true)
+  const requestRef = useRef(0)
+
+  init().then((initialized) => {
+    wasm.current = initialized;
+    game.current = Universe.new(width, height)
+    game.current.init(CreationStrategy.Deterministic)
+    const cellsPtr = game.current.cell_ptr()
+    cells.current = new Uint8Array(wasm.current.memory.buffer, cellsPtr, gridSz);
+    isPaused.current = false
+  })
+
+  useLayoutEffect( () => {    
+    let ctx: CanvasRenderingContext2D | null = null
+  
+    if (canvasRef.current) {
+      canvasRef.current.width = (CELL_SIZE + 1) * height + 1
+      canvasRef.current.height = (CELL_SIZE + 1) * width + 1
+      ctx = canvasRef.current!.getContext('2d');
+    }
+
+    const frame = () => {
+      drawGrid(ctx)
+      if (!isPaused.current) {
+        drawCells(ctx, cells.current, game.current)
+        game.current!.tick()
       }
-    });
-    return () => cancelAnimationFrame(frameId)
-  }, [])
+      else {
+        drawCells(ctx, new Uint8Array(gridSz), null)
+      }
+      requestRef.current = requestAnimationFrame(frame)
+    }
+    requestRef.current = requestAnimationFrame(frame)
+    return () => cancelAnimationFrame(requestRef.current);
+  }, []);
   return (<canvas ref={canvasRef} />)
 }
