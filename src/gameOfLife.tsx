@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect } from "react";
 
 import init, { Universe,  CreationStrategy } from "collinsc-wasm-game-of-life";
+export { CreationStrategy } from "collinsc-wasm-game-of-life";
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC"
@@ -9,6 +10,8 @@ const ALIVE_COLOR = "#00A7E1"
 const width = 64;
 const height = 64;
 const gridSz = width * height / 8;
+let wasm: any | null = null
+let loadingWasm = 0;
 
 function drawGrid(ctx: CanvasRenderingContext2D | null) {
   if (ctx != null) {
@@ -51,45 +54,47 @@ function drawCells(ctx: CanvasRenderingContext2D | null, cells: Uint8Array | nul
   }
 }
 
-export function GameOfLife(){
+export function GameOfLife(strategy: CreationStrategy){
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  let game = useRef<Universe | null>(null)
-  let cells = useRef<Uint8Array | null>(null)
-  let wasm = useRef<any | null>(null)
-  let isPaused = useRef(true)
+  let gameRef = useRef<Universe | null>(null)
+  let cellsRef = useRef<Uint8Array | null>(null)
+  let isInitRef = useRef(false)
   const requestRef = useRef(0)
-
-  init().then((initialized) => {
-    wasm.current = initialized;
-    game.current = Universe.new(width, height)
-    game.current.init(CreationStrategy.Deterministic)
-    const cellsPtr = game.current.cell_ptr()
-    cells.current = new Uint8Array(wasm.current.memory.buffer, cellsPtr, gridSz);
-    isPaused.current = false
-  })
+  if (wasm === null && loadingWasm === 0) {
+    loadingWasm = 1;
+    init().then((initialized) => {
+      wasm = initialized;
+      loadingWasm = 2;
+    })
+  }
 
   useLayoutEffect( () => {    
     let ctx: CanvasRenderingContext2D | null = null
-  
     if (canvasRef.current) {
       canvasRef.current.width = (CELL_SIZE + 1) * height + 1
       canvasRef.current.height = (CELL_SIZE + 1) * width + 1
       ctx = canvasRef.current!.getContext('2d');
     }
-
     const frame = () => {
       drawGrid(ctx)
-      if (!isPaused.current) {
-        drawCells(ctx, cells.current, game.current)
-        game.current!.tick()
-      }
-      else {
+
+      if (loadingWasm < 2){
         drawCells(ctx, new Uint8Array(gridSz), null)
+      } else if (!isInitRef.current) {
+        gameRef.current = Universe.new(width, height)
+        gameRef.current.init(strategy)
+        const cellsPtr = gameRef.current.cell_ptr()
+        cellsRef.current = new Uint8Array(wasm.memory.buffer, cellsPtr, gridSz);
+        drawCells(ctx, cellsRef.current, gameRef.current)
+        isInitRef.current = true;
+      } else {
+        gameRef.current!.tick();
+        drawCells(ctx, cellsRef.current, gameRef.current!)
       }
       requestRef.current = requestAnimationFrame(frame)
     }
     requestRef.current = requestAnimationFrame(frame)
     return () => cancelAnimationFrame(requestRef.current);
-  }, []);
+  }, [strategy]);
   return (<canvas ref={canvasRef} />)
 }

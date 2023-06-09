@@ -1,34 +1,8 @@
-:root {
-  --backA: #61828A;
-  --foreA: #A9CCCF;
-  --backB: #ABC3CD;
-  --foreB: #DFE9EB;
+.cardImg
+{
+  max-width: 100%;
+  max-height: auto;
+  display: block; /* remove extra space below image */
 }
 
-.App {
-  text-align: center;
-}
-
-.App-header {
-  background-color: var(--backA);
-  min-height: 30vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--foreA);
-}
-
-.App-body {
-  background-color: var(--backB);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--foreB);
-}
-
-.App-Link {
-  underline: "hover";
-}
 
