@@ -62,7 +62,7 @@ function AboutMe() {
     <LightBox>
       <Typography variant="h4">About Me</Typography>
       <Typography>
-        I am originally from the pacific northwest, but I am relocating to New England live closer to family.
+        I am originally from the Pacific Northwest, but I am relocating to New England live closer to family.
         Professionally I have 5 years of experience writing high performance systems software for electronics manufacturing systems.
         My interests include data, robots, scripting languages, and rooting out complex issues.
       </Typography>
