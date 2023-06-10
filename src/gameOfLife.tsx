@@ -293,12 +293,15 @@ return (
       </Select>
       </div>
     </AppBar>
-    <Box component="main" >
-      <canvas ref={canvasRef} />
+    <Box component="main">
+      <canvas style ={{"width":"100%", "height":"100%"}} ref={canvasRef} />
     </Box>
-    <Box textAlign="center">
+    <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between' 
+      }}>
       <ResetButton/>
-      <Fab sx={{ml: 12, mr: 2}} 
+      <Fab
         aria-label="toggle play pause" 
         color={paused?  "success" : "secondary"} 
         onClick={(e) => handlePlayPauseClick(e)}>

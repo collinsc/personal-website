@@ -32,7 +32,8 @@ function CenterDarkBox( { children, ...props }: Props) {
       "color":"text.primary",
       "textAlign": "center",
       py: 1,
-      minWidth: '450px'
+      px: 0,
+      //minWidth: '450px'
     }} {...props} >
     <Container >
     {children}
@@ -46,7 +47,8 @@ function LightBox({ children, ...props }: Props) {
       "bgcolor": "secondary.main",
       "color": "text.secondary",
       py: 1,
-      minWidth: '450px'
+      px: 0,
+     // minWidth: '450px'
     }} {...props}>
     <Container >
       {children}
@@ -81,14 +83,16 @@ function AboutMe() {
 
 function Resume() {
   return(
+    <div>
     <LightBox>
       <Typography>Right now I am actively looking for work in the greater Boston area.</Typography>
-      <LightBox>
-        <Center>
-          <Link variant="h6" color="primary" href="./Resume-SwEngineer-CollinConway.pdf" >Resume Download (pdf)</Link>
-        </Center>
-      </LightBox>
     </LightBox>
+    <LightBox>
+      <Center>
+        <Link variant="h6" color="primary" href="./Resume-SwEngineer-CollinConway.pdf" >Resume Download (pdf)</Link>
+      </Center>
+    </LightBox>
+    </div>
   )
 }
 
@@ -119,7 +123,9 @@ function Contact() {
 
 function ProjectCard({ children, ...props }: Props) {
   return(<Grid item xs={6}  
-    sx={{minWidth: '425px'}}>
+    sx={{
+      minWidth: '380px'
+  }}>
     <Paper sx={{
       p: 2,
       "color":"primary.main",
@@ -153,7 +159,7 @@ function Projects() {
   return (
     <LightBox>
     <Typography variant="h4">Projects</Typography>
-    <Grid container spacing={2} sx={{"alignItems":"stretch"}}>
+    <Grid container spacing={2} sx={{"alignItems":"baseline", "justifyContent": "space-evenly"}}>
       <ProjectCard>
         {ProjectCopy("Game of Life (2023)",
           "https://github.com/collinsc/wasm-game-of-life", 
