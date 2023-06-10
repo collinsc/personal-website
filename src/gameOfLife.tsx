@@ -82,7 +82,7 @@ export function GameOfLife(){
   const [paused, setPaused] = useState(false)
   const [isInit, setIsInit] = useState(false)
   const [brush, setBrush] = useState('0');
-  let brushRef = useRef('0')
+  let brushRef = useRef('3')
   let loadingWasm = useRef(0)
   let wasm = useRef<any|null>(null)
   

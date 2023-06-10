@@ -164,7 +164,7 @@ function Projects() {
           "https://github.com/collinsc/TicTacToe", 
           "Unbeatable tic tac toe AI, with nice ui. (C#, F#)")}
         <Center>
-          <img className="cardImg" src={ticTacToeImage} alt="Screenshot of tic tac toe game, ai winning."/>
+          <img className="cardImg" src="./tic_tac_toe.gif" alt="Gif of tic tac toe game, ai winning."/>
         </Center>
       </ProjectCard>
       <ProjectCard>
@@ -172,7 +172,7 @@ function Projects() {
           "https://github.com/collinsc/MoustacheMaker", 
           "Facial recognition app to draw moustaches. (Python, OpenCV)")}
         <Center>
-          <img className="cardImg" src="https://media.githubusercontent.com/media/collinsc/MoustacheMaker/master/moustache_maker/data/moustache.gif"
+          <img className="cardImg" src="./moustache.gif"
           alt="Short video displaying facial recognition software drawing moustaches on faces."/>
         </Center>
       </ProjectCard>
