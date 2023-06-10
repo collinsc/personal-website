@@ -32,7 +32,8 @@ function CenterDarkBox( { children, ...props }: Props) {
       "bgcolor": "primary.main",
       "color":"text.primary",
       "textAlign": "center",
-      py: 1
+      py: 1,
+      minWidth: '450px'
     }} {...props} >
     <Container >
     {children}
@@ -45,7 +46,8 @@ function LightBox({ children, ...props }: Props) {
     <Box sx = {{ 
       "bgcolor": "secondary.main",
       "color": "text.secondary",
-      py: 1
+      py: 1,
+      minWidth: '450px'
     }} {...props}>
     <Container >
       {children}
