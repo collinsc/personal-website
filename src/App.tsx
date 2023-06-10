@@ -17,7 +17,9 @@ import '@fontsource/roboto/700.css';
 
 import { GameOfLife } from './gameOfLife';
 
-import openDyslexicImage from './open_dyslexic_sample.png'; // Tell webpack this JS file uses this image
+import openDyslexicImage from './open_dyslexic_sample.png';
+import ticTacToeImage from './tic_tac_toe.png';
+import rmcImage from './rmc_group.jpg';
 
 
 interface Props {
@@ -30,7 +32,7 @@ function CenterDarkBox( { children, ...props }: Props) {
       "bgcolor": "primary.main",
       "color":"text.primary",
       "textAlign": "center",
-      py: 2
+      py: 1
     }} {...props} >
     <Container >
     {children}
@@ -43,7 +45,7 @@ function LightBox({ children, ...props }: Props) {
     <Box sx = {{ 
       "bgcolor": "secondary.main",
       "color": "text.secondary",
-      py: 2
+      py: 1
     }} {...props}>
     <Container >
       {children}
@@ -69,8 +71,12 @@ function AboutMe() {
       <Typography>
         I am originally from the Pacific Northwest, but I am relocating to New England live closer to family.
         Professionally I have 5 years of experience writing high performance systems software for electronics manufacturing systems.
-        My interests include data, robots, scripting languages, and rooting out complex issues.
+        My hobbies are: board games, cooking, camping, and playing guitar.
+        My career interests include: data, robots, minimal interface design, designing testable code, and rooting out complex issues.
       </Typography>
+      <Center>
+        <Link variant="h6" color="inherit" href="./Resume-SwEngineer-CollinConway.pdf" >Resume</Link>
+      </Center>
     </LightBox>
     )
 }
@@ -85,9 +91,7 @@ function Contact() {
         margin: "auto"
       }
     }}>
-    <Link color="inherit" href="static/collin_conway_resume.pdf" download>
-    Resume
-    </Link>
+
     <Link  color="inherit" href="mailto: collinsconway@gmail.com">
     collinsconway@gmail.com
     </Link>
@@ -102,7 +106,6 @@ function Contact() {
     )
 }
 
-
 function ProjectCard({ children, ...props }: Props) {
   return(<Grid item xs={6}  
     sx={{minWidth: '425px'}}>
@@ -111,7 +114,6 @@ function ProjectCard({ children, ...props }: Props) {
       "color":"primary.main",
       height: "100%",
       alignItems: "center",
-          
     }}>
       {children}
     </Paper>
@@ -144,7 +146,7 @@ function Projects() {
       <ProjectCard>
         {ProjectCopy("Game of Life (2023)",
           "https://github.com/collinsc/wasm-game-of-life", 
-          `Life in your browser, real fast. (rust, wasm, node.js)`)}
+          `Interactive life in your browser, real fast. (Rust, WASM, React)`)}
         <Center>
           {GameOfLife()}
         </Center>
@@ -152,9 +154,17 @@ function Projects() {
       <ProjectCard>
         {ProjectCopy("Open Dyslexic Reader View (2022)",
           "https://github.com/collinsc/OpenDyslexic-ReaderView", 
-          "Customized chrome reader view to display the best font on the web. (node.js)")}
+          "Customized chrome reader view to display the best font on the web. (Node.js)")}
         <Center>
           <img className="cardImg" src={openDyslexicImage} alt="Custom fonts displaying in chrome reader view plugin."/>
+        </Center>
+      </ProjectCard>
+      <ProjectCard>
+        {ProjectCopy("AB Pruning Tic Tac Toe (2021)",
+          "https://github.com/collinsc/TicTacToe", 
+          "Unbeatable tic tac toe AI, with nice ui. (C#, F#)")}
+        <Center>
+          <img className="cardImg" src={ticTacToeImage} alt="Screenshot of tic tac toe game, ai winning."/>
         </Center>
       </ProjectCard>
       <ProjectCard>
@@ -166,12 +176,17 @@ function Projects() {
           alt="Short video displaying facial recognition software drawing moustaches on faces."/>
         </Center>
       </ProjectCard>
-      
-      
+      <ProjectCard>
+        {ProjectCopy("Nasa RMC Entry (2018)",
+          "https://github.com/TrickfireRobotics/NasaRmc2018", 
+          "Lead programmer for nasa robotic mining competition entry. (c++, ROS)")}
+        <Center>
+          <img className="cardImg" src={rmcImage} alt="Screenshot of robotics team at nasa robotic mining competition."/>
+        </Center>
+      </ProjectCard>
     </Grid>
     </LightBox>);
 }
-
 
 function App() {
   const theme = createTheme({
