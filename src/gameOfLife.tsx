@@ -226,7 +226,6 @@ useEffect( () => {
           if (doDraw) {
             let idx = parseInt(brushRef.current)
             let shape = shape_map[idx];
-            console.log(idx, shape)
             gameRef.current!.draw_object(shape, row, col)
           }
         break;
