@@ -18,7 +18,6 @@ import '@fontsource/roboto/700.css';
 import { GameOfLife } from './gameOfLife';
 
 import openDyslexicImage from './open_dyslexic_sample.png';
-import ticTacToeImage from './tic_tac_toe.png';
 import rmcImage from './rmc_group.jpg';
 
 
