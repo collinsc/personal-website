@@ -10,7 +10,12 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
 
-import { GameOfLife, CreationStrategy } from './gameOfLife';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+import { GameOfLife } from './gameOfLife';
 
 import openDyslexicImage from './open_dyslexic_sample.png'; // Tell webpack this JS file uses this image
 
@@ -99,7 +104,8 @@ function Contact() {
 
 
 function ProjectCard({ children, ...props }: Props) {
-  return(<Grid item xs={6}>
+  return(<Grid item xs={6}  
+    sx={{minWidth: '425px'}}>
     <Paper sx={{
       p: 2,
       "color":"primary.main",
@@ -140,7 +146,7 @@ function Projects() {
           "https://github.com/collinsc/wasm-game-of-life", 
           `Life in your browser, real fast. (rust, wasm, node.js)`)}
         <Center>
-          {GameOfLife(CreationStrategy.Deterministic)}
+          {GameOfLife()}
         </Center>
       </ProjectCard>
       <ProjectCard>
