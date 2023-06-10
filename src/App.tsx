@@ -6,20 +6,15 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import './App.css';
-
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
+import theme from "./Theme"
 
 import { GameOfLife } from './gameOfLife';
 
 import openDyslexicImage from './open_dyslexic_sample.png';
 import rmcImage from './rmc_group.jpg';
-
 
 interface Props {
   children?: ReactNode
@@ -163,7 +158,7 @@ function Projects() {
       <ProjectCard>
         {ProjectCopy("Game of Life (2023)",
           "https://github.com/collinsc/wasm-game-of-life", 
-          `Interactive life in your browser, real fast. (Rust, WASM, React)`)}
+          `An interactive web assembly game of life. (Rust, WASM, React)`)}
         <Center>
           {GameOfLife()}
         </Center>
@@ -171,15 +166,15 @@ function Projects() {
       <ProjectCard>
         {ProjectCopy("Open Dyslexic Reader View (2022)",
           "https://github.com/collinsc/OpenDyslexic-ReaderView", 
-          "Customized chrome reader view to display the best font on the web. (Node.js)")}
+          "Customized chrome reader view to display my favorite open source font. (Node.js)")}
         <Center>
-          <img className="cardImg" src={openDyslexicImage} alt="Custom fonts displaying in chrome reader view plugin."/>
+          <img className="cardImg" src={openDyslexicImage} alt="Custom css displaying in chrome reader view plugin. (Node.js) was used for programming"/>
         </Center>
       </ProjectCard>
       <ProjectCard>
         {ProjectCopy("AB Pruning Tic Tac Toe (2021)",
           "https://github.com/collinsc/TicTacToe", 
-          "Unbeatable tic tac toe AI, with nice ui. (C#, F#)")}
+          "Unbeatable tic tac toe AI, with nice MVVM .Net ui. (C#, F#, WPF)")}
         <Center>
           <img className="cardImg" src="./tic_tac_toe.gif" alt="Gif of tic tac toe game, ai winning."/>
         </Center>
@@ -187,16 +182,16 @@ function Projects() {
       <ProjectCard>
         {ProjectCopy("Moustache Maker (2019)",
           "https://github.com/collinsc/MoustacheMaker", 
-          "Facial recognition app to draw moustaches. (Python, OpenCV)")}
+          "Facial recognition app to draw moustaches. (Python, OpenCV, Flask)")}
         <Center>
           <img className="cardImg" src="./moustache.gif"
-          alt="Short video displaying facial recognition software drawing moustaches on faces."/>
+          alt="Short video displaying facial recognition software drawing moustaches on my face."/>
         </Center>
       </ProjectCard>
       <ProjectCard>
-        {ProjectCopy("Nasa RMC Entry (2018)",
+        {ProjectCopy("NASA RMC Capstone (2018)",
           "https://github.com/TrickfireRobotics/NasaRmc2018", 
-          "Lead programmer for nasa robotic mining competition entry. (c++, ROS)")}
+          "My University of Washington Capstone as SW lead NASA Robotic Mining Competition entry. (C++, ROS, Linux, Python)")}
         <Center>
           <img className="cardImg" src={rmcImage} alt="Screenshot of robotics team at nasa robotic mining competition."/>
         </Center>
@@ -206,34 +201,15 @@ function Projects() {
 }
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#61828A',
-      },
-      secondary: {
-        main: '#ABC3CD',
-      },
-      text: {
-        primary: '#A9CCCF',
-        secondary: '#DFE9EB'
-      },
-      background: {
-      default: '#61828A'
-      }
-    },
-  });
 
   return (
     <ThemeProvider theme={theme}>
-    <CssBaseline />
-
-    {Title()}
-    {AboutMe()}
-    {Resume()}
-    {Projects()}
-    {Contact()}
-
+      <CssBaseline />
+      <Title/>
+      <AboutMe/>
+      <Resume/>
+      <Projects/>
+      <Contact/>
     </ThemeProvider>
     );
 }
