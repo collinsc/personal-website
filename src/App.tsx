@@ -75,11 +75,21 @@ function AboutMe() {
         My hobbies are: board games, cooking, camping, and playing guitar.
         My career interests include: data, robots, minimal interface design, designing testable code, and rooting out complex issues.
       </Typography>
-      <Center>
-        <Link variant="h6" color="inherit" href="./Resume-SwEngineer-CollinConway.pdf" >Resume</Link>
-      </Center>
     </LightBox>
     )
+}
+
+function Resume() {
+  return(
+    <LightBox>
+      <Typography>Right now I am actively looking for work in the greater Boston area.</Typography>
+      <LightBox>
+        <Center>
+          <Link variant="h6" color="primary" href="./Resume-SwEngineer-CollinConway.pdf" >Resume Download (pdf)</Link>
+        </Center>
+      </LightBox>
+    </LightBox>
+  )
 }
 
 function Contact() {
@@ -214,6 +224,7 @@ function App() {
 
     {Title()}
     {AboutMe()}
+    {Resume()}
     {Projects()}
     {Contact()}
 
