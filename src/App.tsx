@@ -36,11 +36,15 @@ function CenterDarkBox( { children, ...props }: Props) {
     </Box>)
 }
 
+const COL_1_SPACE=6
+const COL_2_SPACE=6
+
+
 function LightBox({ children, ...props }: Props) {
   return (
     <Box sx = {{ 
       "bgcolor": "secondary.main",
-      "color": "text.secondary",
+      "color": "background.default",
       py: 1,
       px: 0,
      // minWidth: '450px'
@@ -62,33 +66,82 @@ function Title() {
     </CenterDarkBox>)
 }
 
+function AboutMeHeader(text:string){
+  return(
+    <React.Fragment>
+      <Grid item xs={COL_1_SPACE}>
+          <Typography variant="h6">{text}</Typography>
+        </Grid>
+        <Grid item xs={COL_2_SPACE}/>
+    </React.Fragment>
+    )
+}
+
+function AboutMeRow({ children, ...props }: Props){
+  return(
+    <React.Fragment>
+      <Grid item xs={COL_1_SPACE}/>
+      <Grid item xs={COL_2_SPACE}>
+        {children}    
+      </Grid >
+    </React.Fragment>
+    )
+}
+
 function AboutMe() {
   return(
     <LightBox>
       <Typography variant="h4">About Me</Typography>
-      <Typography>
-        I am originally from the Pacific Northwest, but I am relocating to New England live closer to family.
-        Professionally I have 5 years of experience writing high performance systems software for electronics manufacturing systems.
-        My hobbies are: board games, cooking, camping, and playing guitar.
-        My career interests include: data, robots, minimal interface design, designing testable code, and rooting out complex issues.
-      </Typography>
+      <Grid container spacing={1}>
+        <Grid item xs ={5} sx={{ minWidth: '380px', p:2 }}>
+          <Typography sx={{fontSize:"1.25rem"}}><i>
+            I am originally from the Pacific Northwest, but I am relocating to New England live closer to family.<br/><br/>
+            Professionally I have 5 years of experience writing high performance systems software for electronics manufacturing systems.<br/><br/>
+            Currently I am looking for work in the greater Boston area. <br/></i>
+          </Typography>
+          <Center>
+            <Paper sx={{m:2, backgroundColor:theme.palette.success.main}}>
+              <Link sx={{p:2}} variant="h6" color="#FFFFFF" href="./Resume-SwEngineer-CollinConway.pdf" >Download Resume</Link>
+            </Paper>
+          </Center>
+        </Grid>
+        <Grid item xs={7}  
+          sx={{
+              minWidth: '380px',
+              p:1,
+          }}>
+          <Paper>
+            <Grid container spacing={1}   >
+              {AboutMeHeader("Hobbies")}
+              <AboutMeRow>
+                <Typography>Board games, cooking, camping, music theory, and playing guitar.</Typography>
+              </AboutMeRow>
+              {AboutMeHeader("Languages")}
+              <AboutMeRow>
+                <Typography><b>Used daily in last position:</b> C#, C++</Typography>
+              </AboutMeRow>
+              <AboutMeRow>
+                <Typography><b>Fluent:</b> Python, PowerShell, Galil Motion, PMC</Typography>
+              </AboutMeRow>
+              <AboutMeRow>
+                <Typography><b>Enough to be Dangerous:</b> Bash, Javascript, Rust, F#, Java</Typography>
+              </AboutMeRow>
+              {AboutMeHeader("Technologies")}                
+              <AboutMeRow>
+                <Typography><b>Super User:</b> Git, Ranorex, Win32 Optimization, Windows</Typography>
+              </AboutMeRow>
+              <AboutMeRow>
+                <Typography><b>Accomplished:</b> Azure Devops Pipelines + Releases, Acronys, Ubuntu</Typography>
+              </AboutMeRow>
+              <AboutMeRow>
+                <Typography><b>Tinkerer:</b> VirtualBox, Postman, Docker</Typography>
+              </AboutMeRow>
+            </Grid>
+          </Paper>
+        </Grid>
+      </Grid>
     </LightBox>
     )
-}
-
-function Resume() {
-  return(
-    <div>
-    <LightBox>
-      <Typography>Right now I am actively looking for work in the greater Boston area.</Typography>
-    </LightBox>
-    <LightBox>
-      <Center>
-        <Link variant="h6" color="primary" href="./Resume-SwEngineer-CollinConway.pdf" >Resume Download (pdf)</Link>
-      </Center>
-    </LightBox>
-    </div>
-  )
 }
 
 function Contact() {
@@ -119,14 +172,10 @@ function Contact() {
 function ProjectCard({ children, ...props }: Props) {
   return(<Grid item xs={6}  
     sx={{
-      minWidth: '380px'
+      minWidth: '380px',
+      p:1
   }}>
-    <Paper sx={{
-      p: 2,
-      "color":"primary.main",
-      height: "100%",
-      alignItems: "center",
-    }}>
+    <Paper >
       {children}
     </Paper>
   </Grid>)
@@ -142,56 +191,75 @@ function Center({ children, ...props }: Props) {
     </div>)
 }
 
-function ProjectCopy(name: string, link: string, desc: string) {
-  return(<div>
-      <Typography variant="h6">{name}</Typography>
-      <Typography >{desc}</Typography>
-      <Link  color="inherit" href={link}>Github</Link>
-    </div>)
+function ProjectCopy(name: string, year:string, link: string, desc: string, techlist: string[]) {
+  return(
+    <Box sx={{pb:1}}>
+      <Box sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        pb: 1
+        }}>
+        <Link variant="h6" href={link} color="inherit">{name}</Link>
+        <Typography variant="h6">{year}</Typography>
+      </Box>
+      <Box sx={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}>
+      <Typography sx={{ pr:1}}>{desc}</Typography>
+      <Typography sx={{ pl:1}}><i>{techlist.join("    ")}</i></Typography>
+      </Box>
+    </Box>)
 }
 
 function Projects() {
   return (
     <LightBox>
     <Typography variant="h4">Projects</Typography>
-    <Grid container spacing={2} sx={{"alignItems":"baseline", "justifyContent": "space-evenly"}}>
+    <Grid container spacing={2}>
       <ProjectCard>
-        {ProjectCopy("Game of Life (2023)",
+        {ProjectCopy("Game of Life", "2023",
           "https://github.com/collinsc/wasm-game-of-life", 
-          `An interactive web assembly game of life. (Rust, WASM, React)`)}
+          "An interactive web assembly game of life.",
+          ["Rust","WASM","React"]
+          )}
         <Center>
           {GameOfLife()}
         </Center>
       </ProjectCard>
       <ProjectCard>
-        {ProjectCopy("Open Dyslexic Reader View (2022)",
+        {ProjectCopy("Open Dyslexic Reader View", "2022",
           "https://github.com/collinsc/OpenDyslexic-ReaderView", 
-          "Customized chrome reader view to display my favorite open source font. (Node.js)")}
+          "Customized chrome reader view to display my favorite font.",
+          ["Node.js"])}
         <Center>
           <img className="cardImg" src={openDyslexicImage} alt="Custom css displaying in chrome reader view plugin. (Node.js) was used for programming"/>
         </Center>
       </ProjectCard>
       <ProjectCard>
-        {ProjectCopy("AB Pruning Tic Tac Toe (2021)",
+        {ProjectCopy("AB Pruning Tic Tac Toe", "2021",
           "https://github.com/collinsc/TicTacToe", 
-          "Unbeatable tic tac toe AI, with nice MVVM .Net ui. (C#, F#, WPF)")}
+          "Unbeatable tic tac toe AI, with nice UI.",
+          ["MVVM","C#","F#","WPF"])}
         <Center>
           <img className="cardImg" src="./tic_tac_toe.gif" alt="Gif of tic tac toe game, ai winning."/>
         </Center>
       </ProjectCard>
       <ProjectCard>
-        {ProjectCopy("Moustache Maker (2019)",
+        {ProjectCopy("Moustache Maker", "2019",
           "https://github.com/collinsc/MoustacheMaker", 
-          "Facial recognition app to draw moustaches. (Python, OpenCV, Flask)")}
+          "Facial recognition app to draw moustaches.",
+          ["Python","OpenCV","Flask"])}
         <Center>
           <img className="cardImg" src="./moustache.gif"
           alt="Short video displaying facial recognition software drawing moustaches on my face."/>
         </Center>
       </ProjectCard>
       <ProjectCard>
-        {ProjectCopy("NASA RMC Capstone (2018)",
+        {ProjectCopy("NASA RMC Capstone", "2018",
           "https://github.com/TrickfireRobotics/NasaRmc2018", 
-          "My University of Washington Capstone as SW lead NASA Robotic Mining Competition entry. (C++, ROS, Linux, Python)")}
+          "Capstone at University of Washington for autonomous navigation of NASA Robotic Mining Competition entry.",
+          ["C++","ROS","Python"])}
         <Center>
           <img className="cardImg" src={rmcImage} alt="Screenshot of robotics team at nasa robotic mining competition."/>
         </Center>
@@ -207,7 +275,6 @@ function App() {
       <CssBaseline />
       <Title/>
       <AboutMe/>
-      <Resume/>
       <Projects/>
       <Contact/>
     </ThemeProvider>

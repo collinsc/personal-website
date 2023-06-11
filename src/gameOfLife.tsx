@@ -1,13 +1,11 @@
 import { useRef, useEffect, useState} from "react";
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Fab from '@mui/material/Fab';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import MenuItem from '@mui/material/MenuItem';
-import Typography from '@mui/material/Typography';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import BrushIcon from '@mui/icons-material/Brush';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
@@ -192,14 +190,6 @@ export function GameOfLife(){
   <Box>
     <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <AppBar position="static"
-        sx={{
-          bgColor:"primary",
-          alignItems:"Center"
-        }}
-        >
-          <Typography variant="h4"  sx={{ flexGrow: 1 }}>Game Of Life</Typography>
-      </AppBar>
       <Box component="main">
         <canvas style ={{"width":"100%", "height":"100%"}} ref={canvasRef} />
       </Box>
