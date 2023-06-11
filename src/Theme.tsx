@@ -29,7 +29,6 @@ const theme = createTheme({
   	    root: {
   	      color: '#61828A',
   	      padding:10,
-  	      height: "100%",
       		alignItems: "center",
   	    }
   	  }
