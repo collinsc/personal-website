@@ -121,20 +121,20 @@ function AboutMe() {
                 <Typography><b>Used daily in last position:</b> C#, C++</Typography>
               </AboutMeRow>
               <AboutMeRow>
-                <Typography><b>Fluent:</b> Python, PowerShell, Galil Motion, PMC</Typography>
+                <Typography><b>Fluent:</b> Python, PowerShell,  Galil Motion, PMC</Typography>
               </AboutMeRow>
               <AboutMeRow>
-                <Typography><b>Enough to be Dangerous:</b> Bash, Javascript, Rust, F#, Java</Typography>
+                <Typography><b>Enough to be Dangerous:</b> Bash, XSLT, Typescript, Rust, F#, Java</Typography>
               </AboutMeRow>
-              {AboutMeHeader("Technologies")}                
+              {AboutMeHeader("Technologies + Frameworks")}                
               <AboutMeRow>
-                <Typography><b>Super User:</b> Git, Ranorex, Win32 Optimization, Windows</Typography>
-              </AboutMeRow>
-              <AboutMeRow>
-                <Typography><b>Accomplished:</b> Azure Devops Pipelines + Releases, Acronys, Ubuntu</Typography>
+                <Typography><b>Super User:</b> Git, Ranorex, Win32, WinForms, C++/CLI, Azure Devops Server</Typography>
               </AboutMeRow>
               <AboutMeRow>
-                <Typography><b>Tinkerer:</b> VirtualBox, Postman, Docker</Typography>
+                <Typography><b>Accomplished:</b> ROS, numpy, pandas, jupyter, WPF, Acronys, Nuget</Typography>
+              </AboutMeRow>
+              <AboutMeRow>
+                <Typography><b>Tinkerer:</b> Node.js, React, VirtualBox, Postman, Docker</Typography>
               </AboutMeRow>
             </Grid>
           </Paper>

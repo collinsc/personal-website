@@ -16,7 +16,7 @@
     "@types/node": "^16.18.34",
     "@types/react": "^18.2.8",
     "@types/react-dom": "^18.2.4",
-    "collinsc-wasm-game-of-life": "^0.3.1",
+    "collinsc-wasm-game-of-life": "^0.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
