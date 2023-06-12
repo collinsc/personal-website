@@ -24,7 +24,7 @@ function CenterDarkBox( { children, ...props }: Props) {
   return (
     <Box sx = {{ 
       "bgcolor": "primary.main",
-      "color":"text.primary",
+      "color":"text.secondary",
       "textAlign": "center",
       py: 1,
       px: 0,
@@ -93,17 +93,19 @@ function AboutMe() {
     <LightBox>
       <Typography variant="h4">About Me</Typography>
       <Grid container spacing={1}>
-        <Grid item xs ={5} sx={{ minWidth: '380px', p:2 }}>
-          <Typography sx={{fontSize:"1.25rem"}}><i>
-            I am originally from the Pacific Northwest, but I am relocating to New England live closer to family.<br/><br/>
-            Professionally I have 5 years of experience writing high performance systems software for electronics manufacturing systems.<br/><br/>
-            Currently I am looking for work in the greater Boston area. <br/></i>
-          </Typography>
-          <Center>
-            <Paper sx={{m:2, backgroundColor:theme.palette.success.main}}>
-              <Link sx={{p:2}} variant="h6" color="#FFFFFF" href="./Resume-SwEngineer-CollinConway.pdf" >Download Resume</Link>
-            </Paper>
-          </Center>
+        <Grid item xs ={5} sx={{ minWidth: '380px', p:1 }}>
+          <Paper>
+            <Typography sx={{fontSize:"1.25rem"}}><i>
+              I am originally from the Pacific Northwest, but I am relocating to New England live closer to family.<br/><br/>
+              Professionally I have 5 years of experience writing high performance systems software for electronics manufacturing systems.<br/><br/>
+              Currently I am looking for work in the greater Boston area. <br/></i>
+            </Typography>
+            <Center>
+              <Paper sx={{m:2, backgroundColor:theme.palette.success.main}}>
+                <Link sx={{p:2}} variant="h6" color="#FFFFFF" href="./Resume-SwEngineer-CollinConway.pdf" >Download Resume</Link>
+              </Paper>
+            </Center>
+          </Paper>
         </Grid>
         <Grid item xs={7}  
           sx={{
