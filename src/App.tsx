@@ -61,7 +61,7 @@ function Title() {
     <CenterDarkBox>
       <Typography variant="h2">Collin Conway</Typography>
       <Typography variant="subtitle1" sx={{fontStyle: 'italic'}}>
-        Seasoned Software Engineer, data hound and bug hunter relocating to New England.
+        Versatile Software Engineer with 5 years of experience relocating to New England.
       </Typography>
     </CenterDarkBox>)
 }
